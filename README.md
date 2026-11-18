@@ -1,4 +1,6 @@
-# work1z-skill
+# Work1z
+
+插件名称：Work1z。插件标识：`work1z`。仓库名称：`work1z-plugin`。
 
 ![六个字，够开工吗？从一句「支持取消订单」到 PRD 与技术方案](assets/work1z-skill-intro-minimal.png)
 
@@ -8,9 +10,9 @@
 
 ## 从一句需求开始
 
-在能读取本地 skill 的 Agent 中，提供本项目的 `SKILL.md` 路径，再说明要写哪份文档。例如：
+安装插件后，选择 Work1z，再说明要写哪份文档。也可以直接提供本项目的 `skills/work1z/SKILL.md` 路径。例如：
 
-> 使用 work1z-skill，为预约系统编写 PRD。先阅读当前项目，再帮我明确本期范围和验收标准。
+> 使用 Work1z，为预约系统编写 PRD。先阅读当前项目，再帮我明确本期范围和验收标准。
 
 > 根据现有 PRD 编写订单模块的技术方案，本次只涉及后端。请核对已有接口和数据结构，列出还没确定的业务规则。
 
@@ -20,12 +22,14 @@
 
 ## 什么时候使用
 
-仅在需要编写或修订以下内容时触发：
+`work1z` skill 仅在需要编写或修订以下内容时触发：
 
 - 项目需求文档（PRD）或产品需求方案。
 - 前端、后端或两端的技术方案。
 
 单独写代码、修复缺陷、运行测试、补验收记录或一般技术问答，不触发本 skill。方案确定后，可以继续安排实现、测试和人工验收，这些工作需要相应授权。
+
+插件还包含 `humanizer-zh` skill，可独立用于中文文本润色，也用于方案交付前的表达检查。
 
 ## 能交付什么
 
@@ -44,7 +48,7 @@
 1. **读现状。** 查看项目文档清单、当前 PRD 和受影响模块的设计，按需核对实现。早期版本中仍适用的设计也要回看。
 2. **澄清需求。** 区分已有事实、设计建议和待定问题，不替业务补规则。
 3. **交付草稿。** PRD 每轮修改都展示完整草稿，确认后再写入正式文件。技术方案按对应 PRD 编写，迭代时聚焦本次变化。
-4. **润色与审查。** 每轮文档交付前调用 `humanizer-zh`，处理空话、重复和模板化表达。技术方案确认后，还要对照需求与规范审查，记录发现及未验证项。
+4. **润色与审查。** 每轮文档交付前调用内置的 `humanizer-zh`，处理空话、重复和模板化表达。技术方案确认后，还要对照需求与规范审查，记录发现及未验证项。
 5. **归档并衔接交付。** 维护版本和文件链接；后续实现按模块验证，自动化测试结果和人工验收结论分别记录。
 
 润色保留业务规则、技术约束、事实、确定程度和验证状态。接口能否复用、事务能否回滚等判断，需要说明依据；代码审查结论与实际测试结果分别表述。
@@ -68,22 +72,57 @@ PRD 初版为 `v1.0`，每批正式修订递增一个小版本；草稿修改不
 
 只有需要归档技术设计时才创建对应版本目录。确认没有技术变更的版本，在文档清单中注明，不生成空方案。`facts/` 在首次产生记录时创建，按文档版本和模块保存审查、测试及人工验收结果。
 
-## 使用准备
+## 安装与使用
 
-将本项目作为本地 skill 提供给所用 Agent，保留 `SKILL.md` 与 `references/` 的相对位置。自动发现和安装位置按所在工具的 skill 配置处理，也可以在请求中直接给出 `SKILL.md` 的路径。
+本项目采用 [Agent Plugins 插件结构](https://developers.openai.com/plugins/build/plugins)：根目录的 `plugin.json` 声明插件，`skills/work1z/` 包含工作流、模板和文档校验脚本，无 MCP 服务或账号认证。
 
-当前环境还需提供 `humanizer-zh` skill，用于文档交付前的中文润色。本项目通过名称调用它，未内置该 skill；找不到时会说明缺失情况。
+在仓库根目录运行以下命令，注册本地 marketplace 并安装插件：
+
+```bash
+codex plugin marketplace add .
+codex plugin add work1z@work1z-marketplace
+```
+
+安装后新建对话使用 Work1z。支持本地 marketplace 的桌面客户端也可在插件目录中选择 Work1z 来源并安装。仓库内的 `.agents/plugins/marketplace.json` 使用相对路径，移动或克隆仓库后无需修改其中的路径；已注册的本地来源在目录移动后需要重新添加。
+
+插件已内置 [humanizer-zh](skills/humanizer-zh/SKILL.md)，无需单独安装。Work1z 通过插件内的相对路径读取润色规则，不依赖全局同名 skill。打包版本保留源文件中的修订标记 `2026-09-23`、来源说明及 [MIT 许可证](skills/humanizer-zh/LICENSE)。
+
+文档校验脚本使用 Python 3.9 及以上版本，无第三方依赖。草稿交付前检查结构、版本及链接，归档后核对清单和目录；参数和使用方法见[文档校验脚本说明](skills/work1z/references/文档校验脚本.md)。从仓库根目录查看参数：
+
+```bash
+python3 skills/work1z/scripts/validate_docs.py --help
+```
+
+## 插件结构
+
+```text
+work1z-plugin/
+├── plugin.json
+├── .agents/plugins/marketplace.json
+├── assets/
+└── skills/
+    ├── work1z/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── scripts/
+    └── humanizer-zh/
+        ├── SKILL.md
+        └── LICENSE
+```
 
 ## 文件导航
 
 | 文件 | 用途 |
 | --- | --- |
-| [SKILL.md](SKILL.md) | 触发范围、执行规则及交付检查 |
-| [PRD 模板](references/PRD模板.md) | 需求文档结构与修订格式 |
-| [技术方案模板](references/技术方案模板.md) | 技术设计的组织方式 |
-| [项目文档清单模板](references/项目文档清单模板.md) | 版本、模块和设计文件索引 |
-| [需求分析图表规范](references/需求分析图表规范.md) | 图种选择与表达规范 |
-| [Java 开发手册（黄山版）](references/Java开发手册-黄山版.md) | Java 编码与检查依据 |
-| [Java 工程目录与分层](references/Java工程目录与分层.md) | 包结构、职责和依赖方向 |
-| [文档写作正反例](references/文档写作正反例.md) | 正文表达、技术判断与修订记录示例 |
+| [plugin.json](plugin.json) | 插件标识、版本及展示信息 |
+| [marketplace.json](.agents/plugins/marketplace.json) | 本地插件安装入口 |
+| [SKILL.md](skills/work1z/SKILL.md) | 触发范围、执行规则及交付检查 |
+| [humanizer-zh](skills/humanizer-zh/SKILL.md) | 中文润色规则，随插件一起安装 |
+| [PRD 模板](skills/work1z/references/PRD模板.md) | 需求文档结构与修订格式 |
+| [技术方案模板](skills/work1z/references/技术方案模板.md) | 技术设计的组织方式 |
+| [项目文档清单模板](skills/work1z/references/项目文档清单模板.md) | 版本、模块和设计文件索引 |
+| [需求分析图表规范](skills/work1z/references/需求分析图表规范.md) | 图种选择与表达规范 |
+| [Java 开发手册（黄山版）](skills/work1z/references/Java开发手册-黄山版.md) | Java 编码与检查依据 |
+| [Java 工程目录与分层](skills/work1z/references/Java工程目录与分层.md) | 包结构、职责和依赖方向 |
+| [文档写作正反例](skills/work1z/references/文档写作正反例.md) | 正文表达、技术判断与修订记录示例 |
 

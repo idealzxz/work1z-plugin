@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "work1z",
+  "version": "0.1.0",
+  "description": "编写可确认的 PRD、可审查的技术方案，并保留版本与验收依据。",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Work1z",
+        "shortDescription": "项目需求与技术方案助手",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "defaultPrompt": [
+          "使用 Work1z，为当前项目编写 PRD，先明确本期范围和验收标准。",
+          "使用 Work1z，根据现有 PRD 编写技术方案，核对已有接口和数据结构。"
+        ]
+      }
+    }
+  }
+}
