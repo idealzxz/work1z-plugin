@@ -1,12 +1,29 @@
-# Work1z
+<h1 align="center">Work1z</h1>
 
-插件名称：Work1z。插件标识：`work1z`。仓库名称：`work1z-plugin`。
+<p align="center">把项目需求写成可确认的 PRD，把实现思路整理成可审查的技术方案。</p>
+
+<p align="center">
+  <a href="plugin.json"><img src="https://img.shields.io/badge/Version-0.1.1-blue?style=plastic" alt="Version 0.1.1"></a>
+  <a href="skills/"><img src="https://img.shields.io/badge/Skills-2-8A2BE2?style=plastic" alt="2 bundled skills"></a>
+  <a href=".agents/plugins/marketplace.json"><img src="https://img.shields.io/badge/Codex-Plugin-111111?style=plastic" alt="Codex plugin"></a>
+  <a href=".claude-plugin/plugin.json"><img src="https://img.shields.io/badge/Claude_Code-Plugin-D97757?style=plastic" alt="Claude Code plugin"></a>
+  <a href=".qoder-plugin/plugin.json"><img src="https://img.shields.io/badge/Qoder-Plugin-7C3AED?style=plastic" alt="Qoder plugin"></a>
+  <a href="skills/work1z/references/文档校验脚本.md"><img src="https://img.shields.io/badge/Validator-Python_3.9%2B-3776AB?style=plastic" alt="Document validator: Python 3.9+"></a>
+</p>
+
+<p align="center">
+  <strong>简体中文</strong> · <a href="README.en.md">English</a>
+</p>
+
+<p align="center">
+  <a href="#使用说明">使用说明</a> · <a href="#安装">安装</a> · <a href="#项目文件">项目文件</a>
+</p>
 
 ![六个字，够开工吗？从一句「支持取消订单」到 PRD 与技术方案](assets/work1z-skill-intro-minimal.png)
 
-把项目需求写成可确认的 PRD，把实现思路整理成可审查的技术方案，并按版本保留设计与验收依据。
+Work1z 适合新项目梳理需求，也适合已有项目的功能迭代。PRD 说明本期做什么、怎样验收；技术方案说明怎么实现、为什么这样做，并按版本保留设计与验收依据。
 
-适合新项目梳理需求，也适合已有项目的功能迭代。PRD 说明本期做什么、怎样验收；技术方案说明怎么实现、为什么这样做。
+插件标识：`work1z`。仓库名称：`work1z-plugin`。内置 `work1z` 和 `humanizer-zh` 两个 Skill。
 
 ## 使用说明
 
@@ -236,13 +253,59 @@ Qoder IDE 可在 Settings → Plugins 的 Custom 区域点击 Import，选择本
 
 插件无 MCP 服务或账号认证。marketplace 使用相对路径，克隆仓库后无需修改配置中的路径；已经登记的本地来源在目录移动后需要重新添加。
 
-插件已内置 [humanizer-zh](skills/humanizer-zh/SKILL.md)，无需单独安装。Work1z 通过插件内的相对路径读取润色规则，不依赖全局同名 skill。打包版本保留源文件中的修订标记 `2026-09-23`、来源说明及 [MIT 许可证](skills/humanizer-zh/LICENSE)。
+插件已内置 [humanizer-zh](skills/humanizer-zh/SKILL.md)，无需单独安装。Work1z 通过插件内的相对路径读取润色规则，不依赖全局同名 skill。打包版本保留源文件中的修订标记 `2026-09-23`、来源说明及 [MIT 许可证](skills/humanizer-zh/LICENSE)。该许可证适用于内置的 humanizer-zh，当前仓库尚未声明整个项目的许可证。
 
 文档校验脚本使用 Python 3.9 及以上版本，无第三方依赖。草稿交付前检查结构、版本及链接，归档后核对清单和目录；参数和使用方法见[文档校验脚本说明](skills/work1z/references/文档校验脚本.md)。从仓库根目录查看参数：
 
 ```bash
 python3 skills/work1z/scripts/validate_docs.py --help
 ```
+
+</details>
+
+
+## 自动更新与发布
+
+正式版本发布在 [GitHub Releases](https://github.com/idealzxz/work1z-plugin/releases)。安装时优先下载附件 `work1z-plugin-vX.Y.Z.zip` 并完整解压，再按上面的宿主步骤安装；发布包包含文件校验清单。GitHub 自动提供的 Source code 压缩包不包含该清单。
+
+两个 Skill 在每次新任务开始时调用公共更新脚本，同一次任务只检查一次。有更高的正式版本时，校验下载包和本地文件后更新当前插件副本，再重新读取新版规则。没有 Release 或网络不可用时继续使用当前版本，并说明实际检查结果。
+
+- 更新需要 Python 3.9+、命令执行权限、网络和插件目录写权限，无第三方 Python 依赖。
+- 只跟随正式 Release，不跟随 main，不安装预发布版本或降级。
+- 本地发布文件有修改、缺失或路径冲突时不覆盖；不在发布清单中的文件会保留。
+- Git 开发检出目录只检查版本。宿主从 Git 复制的缓存若没有清单，会从当前版本的正式发布包取得基线；无法取得基线时跳过更新。
+- 更新只作用于当前加载的插件目录。宿主的注册记录及其他安装副本不会被改写；必要时执行宿主重载或新建会话，管理界面的版本显示可能要刷新后才同步。
+- 首次使用本机制需要安装 `0.1.1` 或后续正式发布包。旧版本没有检查入口，无法自行启动更新。
+
+从插件根目录手动检查或更新：
+
+```bash
+python3 scripts/release.py update --check-only
+python3 scripts/release.py update
+```
+
+具体结果处理及异常恢复见[自动更新规则](skills/work1z/references/自动更新.md)。
+
+<details>
+<summary>维护者：自动打包与发布</summary>
+
+[Release 工作流](https://github.com/idealzxz/work1z-plugin/blob/main/.github/workflows/release.yml) 在推送 `vX.Y.Z` 标签时运行：
+
+1. 运行打包和更新测试。
+2. 校验根目录、Claude Code 和 Qoder 三个 `plugin.json` 的版本与标签一致。
+3. 打包两个 Skill、模板、脚本、图片、插件配置及中英文 README，生成逐文件清单与 ZIP 的 SHA-256；排除 `.DS_Store`、Python 缓存、Git 元数据及开发测试。
+4. 创建草稿 Release，上传 ZIP 和校验文件后再公开。失败的草稿可重跑补齐；已经公开的版本不覆盖，修订需发新版本。
+
+版本号使用 `主版本.次版本.修订号`，例如 `0.1.1`；Git 标签为 `v0.1.1`。发布前同步三个清单和 README 版本徽章，将待发布改动提交到标签对应的提交后，再创建并推送标签。工作流只在远程收到标签后执行，需要仓库启用 GitHub Actions，并允许工作流通过 `GITHUB_TOKEN` 写入 Releases。
+
+本地验证与打包（输出目录放在仓库之外）：
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 scripts/release.py pack --tag v0.1.1 --output /tmp/work1z-dist
+```
+
+输出为 `work1z-plugin-v0.1.1.zip` 和 `work1z-plugin-v0.1.1.zip.sha256`。打包本身不会创建标签或发布 Release。更换版本后，将示例标签替换为对应版本。
 
 </details>
 
@@ -253,7 +316,12 @@ python3 skills/work1z/scripts/validate_docs.py --help
 
 ```text
 work1z-plugin/
+├── README.md
+├── README.en.md
 ├── plugin.json
+├── scripts/release.py
+├── .github/workflows/release.yml
+├── tests/test_release.py
 ├── .agents/plugins/marketplace.json
 ├── .claude-plugin/
 │   ├── plugin.json

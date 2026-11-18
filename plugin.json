@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "work1z",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "编写可确认的 PRD、可审查的技术方案，并保留版本与验收依据。",
   "extensions": {
     "com.openai": {
