@@ -1,0 +1,14 @@
+{
+  "name": "work1z-marketplace",
+  "description": "Work1z 项目需求、技术方案与中文润色插件。",
+  "owner": {
+    "name": "Work1z"
+  },
+  "plugins": [
+    {
+      "name": "work1z",
+      "source": "./",
+      "description": "项目需求与技术方案助手，内置 humanizer-zh 中文润色。"
+    }
+  ]
+}
