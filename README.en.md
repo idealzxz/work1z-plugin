@@ -1,9 +1,15 @@
+<p align="center">
+  <img src="assets/work1z-avatar-easywork.png" width="160" height="160" alt="Work1z: make work easy">
+</p>
+
 <h1 align="center">Work1z</h1>
+
+<p align="center"><strong>Easy work. Get things done with less effort.</strong></p>
 
 <p align="center">Turn project requirements into PRDs ready for approval and implementation ideas into technical plans ready for review.</p>
 
 <p align="center">
-  <a href="plugin.json"><img src="https://img.shields.io/badge/Version-0.1.1-blue?style=plastic" alt="Version 0.1.1"></a>
+  <a href="plugin.json"><img src="https://img.shields.io/badge/Version-0.1.2-blue?style=plastic" alt="Version 0.1.2"></a>
   <a href="skills/"><img src="https://img.shields.io/badge/Skills-2-8A2BE2?style=plastic" alt="2 bundled skills"></a>
   <a href=".agents/plugins/marketplace.json"><img src="https://img.shields.io/badge/Codex-Plugin-111111?style=plastic" alt="Codex plugin"></a>
   <a href=".claude-plugin/plugin.json"><img src="https://img.shields.io/badge/Claude_Code-Plugin-D97757?style=plastic" alt="Claude Code plugin"></a>
@@ -312,16 +318,16 @@ The [Release workflow](https://github.com/idealzxz/work1z-plugin/blob/main/.gith
 3. Package both skills, templates, scripts, images, plugin configurations, and both READMEs. Generate a file inventory and ZIP SHA-256 checksum, excluding `.DS_Store`, Python caches, Git metadata, and development tests.
 4. Create a draft Release, upload the ZIP and checksum, then publish it. Failed drafts can be retried; public releases are not overwritten, so corrections need a new version.
 
-Use `MAJOR.MINOR.PATCH` versions such as `0.1.1` and matching `v0.1.1` Git tags. Before publishing, update all three manifests and README version badges, commit the release changes, then create and push the corresponding tag. The workflow runs only after the remote receives the tag. GitHub Actions must be enabled, with `GITHUB_TOKEN` allowed to write Releases.
+Use `MAJOR.MINOR.PATCH` versions such as `0.1.2` and matching `v0.1.2` Git tags. Before publishing, update all three manifests and README version badges, commit the release changes, then create and push the corresponding tag. The workflow runs only after the remote receives the tag. GitHub Actions must be enabled, with `GITHUB_TOKEN` allowed to write Releases.
 
 Local validation and packaging (write outside the repository):
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 scripts/release.py pack --tag v0.1.1 --output /tmp/work1z-dist
+python3 scripts/release.py pack --tag v0.1.2 --output /tmp/work1z-dist
 ```
 
-Outputs: `work1z-plugin-v0.1.1.zip` and `work1z-plugin-v0.1.1.zip.sha256`. Packaging alone does not create a tag or publish a Release. Replace the example tag when changing versions.
+Outputs: `work1z-plugin-v0.1.2.zip` and `work1z-plugin-v0.1.2.zip.sha256`. Packaging alone does not create a tag or publish a Release. Replace the example tag when changing versions.
 
 </details>
 

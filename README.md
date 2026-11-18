@@ -1,9 +1,15 @@
+<p align="center">
+  <img src="assets/work1z-avatar-easywork.png" width="160" height="160" alt="Work1z：轻松完成工作">
+</p>
+
 <h1 align="center">Work1z</h1>
+
+<p align="center"><strong>Easy work，轻松把事情做完。</strong></p>
 
 <p align="center">把项目需求写成可确认的 PRD，把实现思路整理成可审查的技术方案。</p>
 
 <p align="center">
-  <a href="plugin.json"><img src="https://img.shields.io/badge/Version-0.1.1-blue?style=plastic" alt="Version 0.1.1"></a>
+  <a href="plugin.json"><img src="https://img.shields.io/badge/Version-0.1.2-blue?style=plastic" alt="Version 0.1.2"></a>
   <a href="skills/"><img src="https://img.shields.io/badge/Skills-2-8A2BE2?style=plastic" alt="2 bundled skills"></a>
   <a href=".agents/plugins/marketplace.json"><img src="https://img.shields.io/badge/Codex-Plugin-111111?style=plastic" alt="Codex plugin"></a>
   <a href=".claude-plugin/plugin.json"><img src="https://img.shields.io/badge/Claude_Code-Plugin-D97757?style=plastic" alt="Claude Code plugin"></a>
@@ -296,16 +302,16 @@ python3 scripts/release.py update
 3. 打包两个 Skill、模板、脚本、图片、插件配置及中英文 README，生成逐文件清单与 ZIP 的 SHA-256；排除 `.DS_Store`、Python 缓存、Git 元数据及开发测试。
 4. 创建草稿 Release，上传 ZIP 和校验文件后再公开。失败的草稿可重跑补齐；已经公开的版本不覆盖，修订需发新版本。
 
-版本号使用 `主版本.次版本.修订号`，例如 `0.1.1`；Git 标签为 `v0.1.1`。发布前同步三个清单和 README 版本徽章，将待发布改动提交到标签对应的提交后，再创建并推送标签。工作流只在远程收到标签后执行，需要仓库启用 GitHub Actions，并允许工作流通过 `GITHUB_TOKEN` 写入 Releases。
+版本号使用 `主版本.次版本.修订号`，例如 `0.1.2`；Git 标签为 `v0.1.2`。发布前同步三个清单和 README 版本徽章，将待发布改动提交到标签对应的提交后，再创建并推送标签。工作流只在远程收到标签后执行，需要仓库启用 GitHub Actions，并允许工作流通过 `GITHUB_TOKEN` 写入 Releases。
 
 本地验证与打包（输出目录放在仓库之外）：
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 scripts/release.py pack --tag v0.1.1 --output /tmp/work1z-dist
+python3 scripts/release.py pack --tag v0.1.2 --output /tmp/work1z-dist
 ```
 
-输出为 `work1z-plugin-v0.1.1.zip` 和 `work1z-plugin-v0.1.1.zip.sha256`。打包本身不会创建标签或发布 Release。更换版本后，将示例标签替换为对应版本。
+输出为 `work1z-plugin-v0.1.2.zip` 和 `work1z-plugin-v0.1.2.zip.sha256`。打包本身不会创建标签或发布 Release。更换版本后，将示例标签替换为对应版本。
 
 </details>
 
